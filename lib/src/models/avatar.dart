@@ -1,0 +1,56 @@
+part of imgur.models;
+
+/// This model represents an avatar
+@JsonSerializable()
+class Avatar implements BaseModel {
+  /// The avatar name
+  @JsonKey(nullable: true)
+  String name;
+
+  /// The avatar Url
+  String location;
+
+  Avatar({this.name, this.location});
+
+  factory Avatar.fromJson(Map<String, dynamic> json) => _$AvatarFromJson(json);
+  Map<String, dynamic> toJson() => _$AvatarToJson(this);
+}
+
+@JsonSerializable()
+class AvatarData implements BaseModel {
+  /// The avatar name
+  @JsonKey(name: 'avatar_name', nullable: true)
+  String name;
+
+  /// The avatar Url
+  @JsonKey(name: 'avatar')
+  String location;
+
+  AvatarData({this.name, this.location});
+
+  factory AvatarData.fromJson(Map<String, dynamic> json) =>
+      _$AvatarDataFromJson(json);
+  Map<String, dynamic> toJson() => _$AvatarDataToJson(this);
+}
+
+@JsonSerializable()
+class AvatarListData implements BaseModel {
+  @JsonKey(name: 'available_avatars', toJson: baseModelListToJson)
+  List<Avatar> availableAvatars;
+
+  @JsonKey(name: 'available_avatars_count')
+  int availableAvatarsCount;
+
+  @JsonKey(name: 'avatars_are_default')
+  bool avatarsAreDefault;
+
+  AvatarListData({
+    this.availableAvatars,
+    this.availableAvatarsCount,
+    this.avatarsAreDefault,
+  });
+
+  factory AvatarListData.fromJson(Map<String, dynamic> json) =>
+      _$AvatarListDataFromJson(json);
+  Map<String, dynamic> toJson() => _$AvatarListDataToJson(this);
+}
