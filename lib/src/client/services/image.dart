@@ -27,7 +27,8 @@ class ImageService extends BaseService {
 
   /// Updates the title or description of an image.
   /// https://apidocs.imgur.com/?version=latest#7db0c13c-bf70-4e87-aecf-047abc65686d
-  Future<BaseResponse<bool>> update(String imgId, {String title, String description}) async {
+  Future<BaseResponse<bool>> update(String imgId,
+      {String title, String description}) async {
     final Map<String, String> body = {};
 
     if (title != null) {
@@ -37,9 +38,9 @@ class ImageService extends BaseService {
       body['description'] = description;
     }
 
-    return BaseResponse<bool>.fromJson(json.decode((await client
-        .request(HttpMethod.POST, '/3/image/$imgId', body: body))
-        .body));
+    return BaseResponse<bool>.fromJson(json.decode(
+        (await client.request(HttpMethod.POST, '/3/image/$imgId', body: body))
+            .body));
   }
 
   /// Upload an image.

@@ -1,7 +1,6 @@
 name: imgur
-description: >-
-  An Imgur api client for Dart.
-version: 1.0.0
+description: An Imgur API Client Library that uses Imgur's v3 API.
+version: 1.0.1
 homepage: https://github.com/shellbear/imgur.dart
 repository: https://github.com/shellbear/imgur.dart
 author: shellbear <shellbear@protonmail.com>

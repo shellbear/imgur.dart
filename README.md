@@ -1,6 +1,6 @@
 # imgur.dart
 
-An [Imgur](https://imgur.com/) api client for [Dart](https://dart.dev/).
+An [Imgur](https://imgur.com/) API Client Library that uses Imgur's v3 API for [Dart](https://dart.dev/).
 
 ## Usage
 
@@ -20,7 +20,7 @@ main() async {
 
 ## Documentation
 
-A generated documentation is available on [GoDoc](https://godoc.org/github.com/ShellBear/go-blih).
+A generated documentation is available at [pub.dev](https://pub.dev/documentation/imgur/latest/).
 
 ## License
 

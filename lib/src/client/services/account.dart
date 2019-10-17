@@ -7,21 +7,19 @@ class AccountService extends BaseService {
 
   /// Return all of the images associated with the account.
   /// https://apidocs.imgur.com/?version=latest#2e45daca-bd44-47f8-84b0-b3f2aa861735
-  Future<BaseResponseList<Image>> getImages({String username = 'me', int page = 0}) async {
-    return BaseResponseList<Image>.fromJson(json.decode(
-        (await client.request(HttpMethod.GET, '/3/account/$username/images/$page'))
-            .body));
+  Future<BaseResponseList<Image>> getImages(
+      {String username = 'me', int page = 0}) async {
+    return BaseResponseList<Image>.fromJson(json.decode((await client.request(
+            HttpMethod.GET, '/3/account/$username/images/$page'))
+        .body));
   }
 
   /// Returns the total number of images associated with the account.
   /// https://apidocs.imgur.com/?version=latest#2c9edd88-e763-43b4-8ca8-557609d197c3
-  Future<BaseResponse<int>> getImageCount({
-    String username = 'me'
-  }) async {
-    return BaseResponse<int>.fromJson(json.decode(
-        (await client.request(
+  Future<BaseResponse<int>> getImageCount({String username = 'me'}) async {
+    return BaseResponse<int>.fromJson(json.decode((await client.request(
             HttpMethod.GET, '/3/account/$username/images/count'))
-            .body));
+        .body));
   }
 
   /// Get the current account's avatar URL and avatar name.
@@ -87,8 +85,8 @@ class AccountService extends BaseService {
     DateBestSort sort = DateBestSort.newest,
   }) async {
     return BaseResponseList<GalleryAlbumImage>.fromJson(json.decode(
-        (await client.request(
-                HttpMethod.GET, '/3/account/$username/submissions/$page/${fmtType(sort)}'))
+        (await client.request(HttpMethod.GET,
+                '/3/account/$username/submissions/$page/${fmtType(sort)}'))
             .body));
   }
 
@@ -99,21 +97,18 @@ class AccountService extends BaseService {
     DateBestSort sort = DateBestSort.newest,
     int page = 0,
   }) async {
-    return BaseResponseList<Comment>.fromJson(json.decode(
-        (await client.request(
-            HttpMethod.GET, '/3/account/$username/comments/${fmtType(sort)}/$page'))
-            .body));
+    return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
+            HttpMethod.GET,
+            '/3/account/$username/comments/${fmtType(sort)}/$page'))
+        .body));
   }
 
   /// Return a count of all of the comments associated with the account.
   /// https://apidocs.imgur.com/?version=latest#e67c348d-c235-4839-8041-7244ced0c7db
-  Future<BaseResponse<int>> getCommentCount({
-    String username = 'me'
-  }) async {
-    return BaseResponse<int>.fromJson(json.decode(
-        (await client.request(
+  Future<BaseResponse<int>> getCommentCount({String username = 'me'}) async {
+    return BaseResponse<int>.fromJson(json.decode((await client.request(
             HttpMethod.GET, '/3/account/$username/comments/count'))
-            .body));
+        .body));
   }
 
   /// Updates the account settings for a given user, the user must be logged in.

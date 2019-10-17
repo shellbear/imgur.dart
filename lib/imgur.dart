@@ -1,4 +1,4 @@
-/// A dart library client for Imgur api.
+/// An Imgur API Client Library that uses Imgur's v3 API.
 /// https://apidocs.imgur.com/?version=latest
 /// https://api.imgur.com/
 
