@@ -5,6 +5,52 @@ part of imgur.client;
 class AlbumService extends BaseService {
   AlbumService(Imgur client) : super(client);
 
+  /// Create a new album.
+  /// https://apidocs.imgur.com/?version=latest#5369b915-ad8b-47b1-b44b-8e2561e41cee
+  Future<BaseResponse<Album>> create({
+    /// The image ids that you want to be included in the album.
+    String ids,
+
+    /// The deletehashes of the images that you want to be included in the album.
+    String deletehashes,
+
+    /// The title of the album.
+    String title,
+
+    /// The description of the album.
+    String description,
+
+    /// Sets the privacy level of the album.
+    Privacy privacy,
+
+    /// The ID of an image that you want to be the cover of the album.
+    String cover,
+  }) async {
+    Map<String, String> body = Map<String, String>();
+
+    if (ids != null) {
+      body['ids'] = ids;
+    }
+    if (deletehashes != null) {
+      body['deletehashes'] = deletehashes;
+    }
+    if (title != null) {
+      body['title'] = title;
+    }
+    if (description != null) {
+      body['description'] = description;
+    }
+    if (privacy != null) {
+      body['privacy'] = fmtType(privacy);
+    }
+    if (privacy != null) {
+      body['cover'] = fmtType(cover);
+    }
+
+    return BaseResponse<Album>.fromJson(json.decode(
+        (await client.request(HttpMethod.POST, '/3/album', body: body)).body));
+  }
+
   /// Get infos about a given album.
   /// https://apidocs.imgur.com/?version=latest#5369b915-ad8b-47b1-b44b-8e2561e41cee
   Future<BaseResponse<Album>> getInfos(String albumId) async {

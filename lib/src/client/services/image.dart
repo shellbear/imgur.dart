@@ -49,41 +49,131 @@ class ImageService extends BaseService {
             .body));
   }
 
-  /// Upload an image.
-  /// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
-  Future<BaseResponse> upload(
-    String albumId,
-    String type,
-    String name, {
-    String image,
-    String video,
-    String title,
-    String description,
-    bool disabledAudio,
-  }) async {
-    List<http.MultipartFile> files;
-    Map<String, String> body = {
-      'album_id': albumId,
-      'type': type,
-      'name': name,
-    };
+  Future<BaseResponse<Image>> uploadVideo({
+    File videoFile,
 
-    if (video != null) {
-      files.add(await http.MultipartFile.fromPath('video', video));
+    /// Upload video from path.
+    String videoPath,
+
+    /// The id of the album you want to add the image to. For anonymous albums, {album} should be the deletehash that is returned at creation.
+    String albumId,
+
+    /// The name of the image, this is automatically detected if image is passed via [videoFile] parameter.
+    String name,
+
+    /// The title of the video.
+    String title,
+
+    /// The description of the video.
+    String description,
+
+    /// Will remove the audio track from a video file
+    bool disableAudio,
+  }) async {
+    List<http.MultipartFile> files = List<http.MultipartFile>();
+    Map<String, String> body = {'type': 'file'};
+
+    if (videoFile != null) {
+      files.add(await http.MultipartFile.fromBytes(
+          'video', videoFile.readAsBytesSync(),
+          filename: videoFile.path));
+    } else if (videoPath != null) {
+      files.add(await http.MultipartFile.fromPath('video', videoPath));
+    } else {
+      return Future.error('You must provide at least one file source.');
     }
-    if (image != null) {
-      files.add(await http.MultipartFile.fromPath('image', image));
+
+    if (name != null) {
+      body['name'] = name;
     }
+
+    if (albumId != null) {
+      body['album'] = albumId;
+    }
+
     if (title != null) {
       body['title'] = title;
     }
+
     if (description != null) {
       body['description'] = description;
     }
-    if (disabledAudio != null) {
-      body['disabled_audio'] = (disabledAudio ? 1 : 0).toString();
+
+    if (disableAudio != null) {
+      body['disableAudio'] = (disableAudio ? 1 : 0).toString();
     }
 
+    return await _upload(body: body, files: files);
+  }
+
+  Future<BaseResponse<Image>> uploadImage({
+    File imageFile,
+
+    /// Upload image from path.
+    String imagePath,
+
+    /// Upload image from an Url.
+    String imageUrl,
+
+    /// An image
+    String imageBase64,
+
+    /// The id of the album you want to add the image to. For anonymous albums, [album] should be the deletehash that is returned at creation.
+    String albumId,
+
+    /// The name of the image, this is automatically detected if image is passed via [imageFile] parameter.
+    String name,
+
+    /// The title of the image.
+    String title,
+
+    /// The description of the image.
+    String description,
+  }) async {
+    List<http.MultipartFile> files = List<http.MultipartFile>();
+    Map<String, String> body = Map<String, String>();
+
+    if (imageFile != null) {
+      files.add(await http.MultipartFile.fromBytes(
+          'image', imageFile.readAsBytesSync(),
+          filename: imageFile.path));
+      body['type'] = 'file';
+    } else if (imagePath != null) {
+      files.add(await http.MultipartFile.fromPath('image', imagePath));
+      body['type'] = 'file';
+    } else if (imageUrl != null) {
+      body['image'] = imageUrl;
+      body['type'] = 'URL';
+    } else if (imageBase64 != null) {
+      body['image'] = imageBase64;
+      body['type'] = 'base64';
+    } else {
+      return Future.error('You must provide at least one file source.');
+    }
+
+    if (name != null) {
+      body['name'] = name;
+    }
+
+    if (albumId != null) {
+      body['album'] = albumId;
+    }
+
+    if (title != null) {
+      body['title'] = title;
+    }
+
+    if (description != null) {
+      body['description'] = description;
+    }
+
+    return await _upload(body: body, files: files);
+  }
+
+  /// Upload an image.
+  /// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
+  Future<BaseResponse<Image>> _upload(
+      {List<http.MultipartFile> files, Map<String, String> body}) async {
     return BaseResponse.fromJson(json.decode((await client
             .upload(HttpMethod.POST, '/3/upload', body: body, files: files))
         .body));

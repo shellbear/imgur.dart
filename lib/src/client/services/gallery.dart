@@ -5,6 +5,13 @@ part of imgur.client;
 class GalleryService extends BaseService {
   GalleryService(Imgur client) : super(client);
 
+  /// Get suggestions based on your search.
+  Future<BaseResponseList<String>> searchSuggestions(String search) async {
+    return BaseResponseList<String>.fromJson(json.decode(
+        (await client.request(HttpMethod.GET, '/3/reaction/suggest?q=$search'))
+            .body));
+  }
+
   /// Search the gallery with a given query string
   /// https://apidocs.imgur.com/?version=latest#3c981acf-47aa-488f-b068-269f65aee3ce
   Future<BaseResponseList<GalleryAlbumImage>> search(

@@ -103,6 +103,16 @@ class AccountService extends BaseService {
         .body));
   }
 
+  /// Associate images to account
+  Future<BaseResponse> associate(String deletehashes) async {
+    Map<String, String> body = {'deletehashes': deletehashes};
+
+    return BaseResponse.fromJson(json.decode((await client.request(
+            HttpMethod.POST, '/3/account/me/associateimages',
+            body: body))
+        .body));
+  }
+
   /// Return a count of all of the comments associated with the account.
   /// https://apidocs.imgur.com/?version=latest#e67c348d-c235-4839-8041-7244ced0c7db
   Future<BaseResponse<int>> getCommentCount({String username = 'me'}) async {
