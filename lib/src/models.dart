@@ -2,6 +2,8 @@ library imgur.models;
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'common.dart';
+
 part 'models.g.dart';
 
 part 'models/model.dart';

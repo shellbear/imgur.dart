@@ -22,6 +22,12 @@ main() async {
 
 A generated documentation is available at [pub.dev](https://pub.dev/documentation/imgur/latest/).
 
+## Testing
+
+```sh
+pub run test test/*
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

@@ -50,7 +50,8 @@ class Comment implements BaseModel {
   bool deleted;
 
   /// The current user's vote on the comment. null if not signed in or if the user hasn't voted on it
-  String vote;
+  @JsonKey(fromJson: stringToVote, toJson: voteToString)
+  VoteType vote;
 
   /// All of the replies for this comment. If there are no replies to the comment then this is an empty set
   @JsonKey(toJson: baseModelListToJson)

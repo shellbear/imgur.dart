@@ -10,6 +10,12 @@ class ImageService extends BaseService {
         (await client.request(HttpMethod.GET, '/3/image/$imgId')).body));
   }
 
+  /// Get votes about an image.
+  Future<BaseResponse<Vote>> getVotes(String imgId) async {
+    return BaseResponse.fromJson(json.decode(
+        (await client.request(HttpMethod.GET, '/3/image/$imgId/votes')).body));
+  }
+
   /// Get comments of given image.
   Future<BaseResponseList<Comment>> getComments(String imgId,
       {BestSort sort = BestSort.best}) async {
@@ -92,5 +98,12 @@ class ImageService extends BaseService {
     return BaseResponse.fromJson(json.decode(
         (await client.request(HttpMethod.POST, '/3/image/$imgId/favorite'))
             .body));
+  }
+
+  /// Vote on an image. The vote parameter can only be set as up, down, or veto.
+  Future<BaseResponse<bool>> vote(String imgId, VoteType vote) async {
+    return BaseResponse.fromJson(json.decode((await client.request(
+            HttpMethod.POST, '/3/gallery/image/$imgId/vote/${fmtType(vote)}'))
+        .body));
   }
 }

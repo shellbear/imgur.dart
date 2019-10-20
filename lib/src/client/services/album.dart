@@ -28,6 +28,13 @@ class AlbumService extends BaseService {
             .body));
   }
 
+  /// Get votes about an album.
+  Future<BaseResponse<Vote>> getVotes(String albumId) async {
+    return BaseResponse.fromJson(json.decode(
+        (await client.request(HttpMethod.GET, '/3/album/$albumId/votes'))
+            .body));
+  }
+
   /// Get a details about a single image inside an album.
   /// https://apidocs.imgur.com/?version=latest#d4a30456-8905-40e0-8e14-9b51194c197e
   Future<BaseResponse<Image>> getImage(String albumId, String imgId) async {
@@ -45,5 +52,12 @@ class AlbumService extends BaseService {
     return BaseResponse<String>.fromJson(json.decode(
         (await client.request(HttpMethod.POST, '/3/album/$albumId/favorite'))
             .body));
+  }
+
+  /// Vote on an album. The vote parameter can only be set as up, down, or veto.
+  Future<BaseResponse<bool>> vote(String albumId, VoteType vote) async {
+    return BaseResponse.fromJson(json.decode((await client.request(
+            HttpMethod.POST, '/3/gallery/album/$albumId/vote/${fmtType(vote)}'))
+        .body));
   }
 }

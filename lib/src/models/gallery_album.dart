@@ -65,7 +65,15 @@ class GalleryAlbum implements BaseModel {
   bool isAlbum;
 
   /// The current user's vote on the album. null if not signed in or if the user hasn't voted on it
-  String vote;
+  @JsonKey(fromJson: stringToVote, toJson: voteToString)
+  VoteType vote;
+
+  @JsonKey(name: 'favorite_count')
+  int favoriteCount;
+
+  /// A list of tags associated with the image.
+  @JsonKey(toJson: baseModelListToJson)
+  List<Tag> tags;
 
   /// Indicates if the current user favorited the album. Defaults to false if not signed in
   bool favorite;
@@ -89,41 +97,42 @@ class GalleryAlbum implements BaseModel {
   int imagesCount;
 
   /// An array of all the images in the album (only available when requesting the direct album)
-  @JsonKey(nullable: true, toJson: baseModelListToJson)
+  @JsonKey(toJson: baseModelListToJson)
   List<Image> images;
 
   @JsonKey(name: 'in_most_viral')
   dynamic inMostViral;
 
-  GalleryAlbum({
-    this.id,
-    this.title,
-    this.description,
-    this.datetime,
-    this.cover,
-    this.coverWidth,
-    this.coverHeight,
-    this.accountUrl,
-    this.accountId,
-    this.privacy,
-    this.layout,
-    this.views,
-    this.link,
-    this.ups,
-    this.downs,
-    this.points,
-    this.score,
-    this.isAlbum,
-    this.vote,
-    this.favorite,
-    this.nsfw,
-    this.commentCount,
-    this.topic,
-    this.topicId,
-    this.imagesCount,
-    this.images,
-    this.inMostViral,
-  });
+  GalleryAlbum(
+      {this.id,
+      this.title,
+      this.description,
+      this.datetime,
+      this.cover,
+      this.coverWidth,
+      this.coverHeight,
+      this.accountUrl,
+      this.accountId,
+      this.privacy,
+      this.layout,
+      this.views,
+      this.link,
+      this.ups,
+      this.downs,
+      this.points,
+      this.score,
+      this.isAlbum,
+      this.vote,
+      this.favorite,
+      this.nsfw,
+      this.commentCount,
+      this.topic,
+      this.topicId,
+      this.imagesCount,
+      this.images,
+      this.inMostViral,
+      this.favoriteCount,
+      this.tags});
 
   factory GalleryAlbum.fromJson(Map<String, dynamic> json) =>
       _$GalleryAlbumFromJson(json);

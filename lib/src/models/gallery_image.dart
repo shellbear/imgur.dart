@@ -62,7 +62,8 @@ class GalleryImage implements BaseModel {
   bool looping;
 
   /// The current user's vote on the album. null if not signed in or if the user hasn't voted on it
-  String vote;
+  @JsonKey(fromJson: stringToVote, toJson: voteToString)
+  VoteType vote;
 
   /// Indicates if the current user favorited the image. Defaults to false if not signed in
   bool favorite;
@@ -86,7 +87,18 @@ class GalleryImage implements BaseModel {
 
   /// The username of the account that uploaded it, or null
   @JsonKey(name: 'account_url')
-  int accountUrl;
+  String accountUrl;
+
+  @JsonKey(name: 'favorite_count')
+  int favoriteCount;
+
+  /// A list of tags associated with the image.
+  @JsonKey(toJson: baseModelListToJson)
+  List<Tag> tags;
+
+  /// If the video has sound or not.
+  @JsonKey(nullable: true, name: 'has_sound')
+  bool hasSound;
 
   /// The account ID of the account that uploaded it, or null
   @JsonKey(name: 'account_id')
@@ -132,6 +144,9 @@ class GalleryImage implements BaseModel {
       this.looping,
       this.vote,
       this.favorite,
+      this.favoriteCount,
+      this.hasSound,
+      this.tags,
       this.nsfw,
       this.commentCount,
       this.topic,

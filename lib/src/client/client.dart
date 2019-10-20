@@ -16,15 +16,7 @@ class Imgur {
       : this.client = client != null ? client : http.Client();
 
   Future<http.Response> _sendRequest(http.BaseRequest req) async {
-    if (!auth.isAnonymous) {
-      if (auth.clientId != null && auth.accessToken == null) {
-        req.headers[HttpHeaders.authorizationHeader] =
-            'Client-ID ${auth.clientId}';
-      } else if (auth.accessToken != null) {
-        req.headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${auth.accessToken}';
-      }
-    }
+    req.headers.addAll(auth.headers);
 
     final streamedResponse = await client.send(req);
     final response = await http.Response.fromStream(streamedResponse);

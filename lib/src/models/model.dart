@@ -11,5 +11,17 @@ DateTime _dateTimeFromTimestamp(int ts) =>
 
 int _dateTimeToTimestamp(DateTime dt) => dt.millisecondsSinceEpoch;
 
+String voteToString(VoteType vote) => fmtType(vote);
+
+VoteType stringToVote(String input) {
+  for (VoteType vote in VoteType.values) {
+    if (fmtType(vote) == input) {
+      return vote;
+    }
+  }
+
+  return VoteType.veto;
+}
+
 List<Map<String, dynamic>> baseModelListToJson(List<BaseModel> objects) =>
-    objects.map((obj) => obj.toJson()).toList();
+    objects?.map((obj) => obj.toJson())?.toList();

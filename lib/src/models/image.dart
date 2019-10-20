@@ -17,6 +17,18 @@ class Image implements BaseModel {
   @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeToTimestamp)
   DateTime datetime;
 
+  /// The total number of favorites.
+  @JsonKey(name: 'favorite_count')
+  int favoriteCount;
+
+  /// A list of tags associated with the image.
+  @JsonKey(toJson: baseModelListToJson)
+  List<Tag> tags;
+
+  /// If the video has sound or not.
+  @JsonKey(nullable: true, name: 'has_sound')
+  bool hasSound;
+
   /// Image MIME type.
   String type;
 
@@ -42,7 +54,8 @@ class Image implements BaseModel {
   String link;
 
   /// The current user's vote on the album. null if not signed in or if the user hasn't voted on it
-  String vote;
+  @JsonKey(fromJson: stringToVote, toJson: voteToString)
+  VoteType vote;
 
   /// Indicates if the current user favorited the image. Defaults to false if not signed in
   bool favorite;
@@ -123,10 +136,13 @@ class Image implements BaseModel {
     this.size,
     this.views,
     this.bandwidth,
+    this.tags,
     this.link,
     this.vote,
     this.favorite,
+    this.favoriteCount,
     this.nsfw,
+    this.hasSound,
     this.commentCount,
     this.topic,
     this.topicId,
