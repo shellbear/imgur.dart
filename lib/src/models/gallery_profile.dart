@@ -1,18 +1,19 @@
 part of imgur.models;
 
 /// The totals for a users gallery information.
+///
 /// https://api.imgur.com/models/gallery_profile
 @JsonSerializable()
 class GalleryProfile implements BaseModel {
-  /// Total number of comments the user has made in the gallery
+  /// Total number of comments the user has made in the gallery.
   @JsonKey(name: 'total_gallery_comments')
   int totalGalleryComments;
 
-  /// Total number of items favorited by the user in the gallery
+  /// Total number of user's favorite items in the gallery.
   @JsonKey(name: 'total_gallery_favorites')
   int totalGalleryFavorites;
 
-  /// Total number of images submitted by the user
+  /// Total number of images submitted by the user.
   @JsonKey(name: 'total_gallery_submissions')
   int totalGallerySubmissions;
 
@@ -28,5 +29,6 @@ class GalleryProfile implements BaseModel {
 
   factory GalleryProfile.fromJson(Map<String, dynamic> json) =>
       _$GalleryProfileFromJson(json);
+
   Map<String, dynamic> toJson() => _$GalleryProfileToJson(this);
 }

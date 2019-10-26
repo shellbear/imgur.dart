@@ -8,6 +8,7 @@ class BaseResponse<T> {
 
   BaseResponse({this.success, this.status, this.data});
 
+  /// Initialize a [BaseResponse] instance from Json data.
   BaseResponse.fromJson(Map<String, dynamic> json)
       : success = json['success'],
         status = json['status'],
@@ -15,7 +16,7 @@ class BaseResponse<T> {
 }
 
 /// A class similar to BaseResponse, except that it contains a data array
-/// instead of a single element
+/// instead of a single element.
 class BaseResponseList<T> {
   bool success;
   int status;
@@ -23,6 +24,7 @@ class BaseResponseList<T> {
 
   BaseResponseList({this.data, this.success, this.status});
 
+  /// Initialize a [BaseResponseList] instance from Json data.
   BaseResponseList.fromJson(Map<String, dynamic> json)
       : success = json['success'],
         status = json['status'],
@@ -36,8 +38,10 @@ class BaseResponseList<T> {
 class _DynamicConverter<T> implements JsonConverter<T, Object> {
   _DynamicConverter();
 
-  /// [fromJson] takes a json [Object] and converts it to an Imgur model if it
-  /// is found. otherwise, the type is returned without conversion.
+  /// [fromJson] takes a json [Object] and converts it to an Imgur model.
+  ///
+  /// If the type isn't a [BaseModel] instance then the type is returned
+  /// without conversion.
   @override
   T fromJson(Object json) {
     switch (T) {
@@ -94,9 +98,10 @@ class _DynamicConverter<T> implements JsonConverter<T, Object> {
     return json as T;
   }
 
-  /// [toJson] returns the json representation of an [Object]. If the given
-  /// object inherits from [BaseModel], the [toJson] method is called,
-  /// otherwise the object is returned as is.
+  /// [toJson] returns the json representation of an [Object].
+  ///
+  /// If the given object inherits from [BaseModel], the [toJson] method is
+  /// called, otherwise the object is returned as is.
   @override
   Object toJson(T object) {
     if (T is BaseModel) {

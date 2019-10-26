@@ -1,6 +1,6 @@
 /// An Imgur API Client Library that uses Imgur's v3 API.
-/// https://apidocs.imgur.com/?version=latest
-/// https://api.imgur.com/
+///
+/// https://apidocs.imgur.com
 
 library imgur;
 

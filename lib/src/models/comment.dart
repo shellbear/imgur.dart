@@ -1,59 +1,64 @@
 part of imgur.models;
 
 /// This data model represents an images comment.
+///
 /// https://api.imgur.com/models/comment
 @JsonSerializable()
 class Comment implements BaseModel {
-  /// The ID for the comment
+  /// The ID for the comment.
   int id;
 
-  /// The ID of the image that the comment is for
+  /// The ID of the image that the comment is for.
   @JsonKey(name: 'image_id')
   String imageId;
 
-  /// The comment itself
+  /// The comment text.
   String comment;
 
-  /// Username of the author of the comment
+  /// Username of the author of the comment.
   String author;
 
-  /// The account ID for the author
+  /// The account ID for the author.
   @JsonKey(name: 'author_id')
   int authorId;
 
-  /// If this comment was done to an album
+  /// If this comment was done to an album.
   @JsonKey(name: 'on_album')
   bool onAlbum;
 
-  /// The ID of the album cover image, this is what should be displayed for album comments
+  /// The ID of the album cover image, this is what should be displayed for
+  /// album comments.
   @JsonKey(name: 'album_cover')
   String albumCover;
 
-  /// Number of upvotes for the comment
+  /// Number of upvotes for the comment.
   int ups;
 
-  /// The number of downvotes for the comment
+  /// The number of downvotes for the comment.
   int downs;
 
-  /// the number of upvotes - downvotes
+  /// the number of upvotes - downvotes.
   double points;
 
-  /// Timestamp of creation
+  /// Timestamp of creation.
   @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeToTimestamp)
   DateTime datetime;
 
-  /// If this is a reply, this will be the value of the comment_id for the caption this a reply for
+  /// If this is a reply, this will be the value of the comment_id for the
+  /// caption this a reply for.
   @JsonKey(name: 'parent_id')
   int parentId;
 
-  /// Marked true if this caption has been deleted
+  /// Marked true if this caption has been deleted.
   bool deleted;
 
-  /// The current user's vote on the comment. null if not signed in or if the user hasn't voted on it
+  /// The current user's vote on the comment. null if not signed in or if the
+  /// user hasn't voted on it.
   @JsonKey(fromJson: stringToVote, toJson: voteToString)
   VoteType vote;
 
-  /// All of the replies for this comment. If there are no replies to the comment then this is an empty set
+  /// All of the replies for this comment. If there are no replies to the
+  /// comment then this is an empty set.
   @JsonKey(toJson: baseModelListToJson)
   List<Comment> children;
 
@@ -76,5 +81,6 @@ class Comment implements BaseModel {
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
+
   Map<String, dynamic> toJson() => _$CommentToJson(this);
 }

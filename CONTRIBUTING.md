@@ -1,4 +1,4 @@
-# Contributing to MasterAdd
+# Contributing to project
 
 ## Found an Issue ?
 

@@ -1,17 +1,20 @@
 part of imgur.models;
 
-/// This model represents blocked users
+/// This model represents blocked users.
 @JsonSerializable()
 class BlockedUser implements BaseModel {
+  /// The id of the blocked user.
   @JsonKey(name: 'blocked_id')
-  String blockedId;
+  String id;
 
+  /// The url of the blocked user.
   @JsonKey(name: 'blocked_url')
-  String blockedUrl;
+  String url;
 
-  BlockedUser({this.blockedId, this.blockedUrl});
+  BlockedUser({this.id, this.url});
 
   factory BlockedUser.fromJson(Map<String, dynamic> json) =>
       _$BlockedUserFromJson(json);
+
   Map<String, dynamic> toJson() => _$BlockedUserToJson(this);
 }

@@ -1,73 +1,77 @@
 part of imgur.models;
 
 /// The data model formatted for gallery albums.
+///
 /// https://api.imgur.com/models/gallery_album
 @JsonSerializable()
 class GalleryAlbum implements BaseModel {
-  /// The ID for the image
+  /// The ID for the image.
   String id;
 
-  /// The title of the album in the gallery
+  /// The title of the album in the gallery.
   String title;
 
-  /// The description of the album in the gallery
+  /// The description of the album in the gallery.
   String description;
 
-  /// Time inserted into the gallery
+  /// Time inserted into the gallery.
   @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeToTimestamp)
   DateTime datetime;
 
-  /// The ID of the album cover image
+  /// The ID of the album cover image.
   String cover;
 
-  /// The width, in pixels, of the album cover image
+  /// The width, in pixels, of the album cover image.
   @JsonKey(name: 'cover_width')
   int coverWidth;
 
-  /// The height, in pixels, of the album cover image
+  /// The height, in pixels, of the album cover image.
   @JsonKey(name: 'cover_height')
   int coverHeight;
 
-  /// The account username or null if it's anonymous
+  /// The account username or null if it's anonymous.
   @JsonKey(name: 'account_url')
   String accountUrl;
 
-  /// The account ID of the account that uploaded it, or null
+  /// The account ID of the account that uploaded it, or null.
   @JsonKey(name: 'account_id', nullable: true)
   int accountId;
 
-  /// The privacy level of the album, you can only view public if not logged in as album owner
+  /// The privacy level of the album, you can only view public if not logged
+  /// in as album owner.
   String privacy;
 
-  /// The view layout of the album
+  /// The view layout of the album.
   String layout;
 
-  /// The number of image views
+  /// The number of image views.
   int views;
 
-  /// The URL link to the album
+  /// The URL link to the album.
   String link;
 
-  /// Upvotes for the image
+  /// Upvotes for the image.
   int ups;
 
-  /// Number of downvotes for the image
+  /// Number of downvotes for the image.
   int downs;
 
-  /// Upvotes minus downvotes
+  /// Upvotes minus downvotes.
   int points;
 
-  /// Imgur popularity score
+  /// Imgur popularity score.
   int score;
 
-  /// if it's an album or not
+  /// if it's an album or not.
   @JsonKey(name: 'is_album')
   bool isAlbum;
 
-  /// The current user's vote on the album. null if not signed in or if the user hasn't voted on it
+  /// The current user's vote on the album. null if not signed in or if the
+  /// user hasn't voted on it.
   @JsonKey(fromJson: stringToVote, toJson: voteToString)
   VoteType vote;
 
+  /// The total number of image favorites.
   @JsonKey(name: 'favorite_count')
   int favoriteCount;
 
@@ -75,28 +79,34 @@ class GalleryAlbum implements BaseModel {
   @JsonKey(toJson: baseModelListToJson)
   List<Tag> tags;
 
-  /// Indicates if the current user favorited the album. Defaults to false if not signed in
+  /// Indicates if the current user has favorite the album.
+  ///
+  /// Defaults to false if not signed in.
   bool favorite;
 
-  /// Indicates if the album has been marked as nsfw or not. Defaults to null if information is not available
+  /// Indicates if the album has been marked as nsfw or not.
+  ///
+  /// Defaults to null if information is not available.
   bool nsfw;
 
-  /// Number of comments on the gallery album
+  /// Number of comments on the gallery album.
   @JsonKey(name: 'comment_count')
   int commentCount;
 
-  /// Topic of the gallery album
+  /// Topic of the gallery album.
   String topic;
 
-  /// Topic ID of the gallery album
+  /// Topic ID of the gallery album.
   @JsonKey(name: 'topic_id')
   dynamic topicId;
 
-  /// The total number of images in the album
+  /// The total number of images in the album.
   @JsonKey(name: 'images_count')
   int imagesCount;
 
-  /// An array of all the images in the album (only available when requesting the direct album)
+  /// An array of all the images in the album.
+  ///
+  /// Only available when requesting the direct album.
   @JsonKey(toJson: baseModelListToJson)
   List<Image> images;
 
@@ -136,5 +146,6 @@ class GalleryAlbum implements BaseModel {
 
   factory GalleryAlbum.fromJson(Map<String, dynamic> json) =>
       _$GalleryAlbumFromJson(json);
+
   Map<String, dynamic> toJson() => _$GalleryAlbumToJson(this);
 }

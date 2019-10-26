@@ -6,5 +6,5 @@ main() async {
   /// Get your uploaded images
   final resp = await client.account.getImages();
 
-  print(resp.data);
+  print(resp);
 }
