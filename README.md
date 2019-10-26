@@ -2,6 +2,8 @@
 
 An [Imgur](https://imgur.com/) API Client Library that uses Imgur's v3 API for [Dart](https://dart.dev/).
 
+[![pub package](https://img.shields.io/pub/v/imgur.svg)](https://pub.dev/packages/imgur)
+
 ## Usage
 
 A simple usage example to get your uploaded images:
@@ -42,8 +44,20 @@ A generated documentation is available at [pub.dev](https://pub.dev/documentatio
 ## Testing
 
 ```sh
-pub run test test/*
+pub run test
 ```
+
+## Contributing
+
+You are interested in contributing please see the [CONTRIBUTING.md](CONTRIBUTING.md) file which will
+tell you more about:
+
+* Styling your contributions
+* Submitting issues and/or pull requests
+
+## Credits
+
+* [IamBlueSlime](https://github.com/IamBlueSlime) - [TalkOpenSource](https://github.com/IamBlueSlime/TalkOpenSource/) for the project layout inspiration
 
 ## License
 
