@@ -26,5 +26,6 @@ class MemeMetadata implements BaseModel {
   factory MemeMetadata.fromJson(Map<String, dynamic> json) =>
       _$MemeMetadataFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$MemeMetadataToJson(this);
 }

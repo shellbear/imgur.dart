@@ -33,5 +33,6 @@ class CustomGallery implements BaseModel {
   factory CustomGallery.fromJson(Map<String, dynamic> json) =>
       _$CustomGalleryFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$CustomGalleryToJson(this);
 }

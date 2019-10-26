@@ -16,5 +16,6 @@ class BlockedUser implements BaseModel {
   factory BlockedUser.fromJson(Map<String, dynamic> json) =>
       _$BlockedUserFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$BlockedUserToJson(this);
 }

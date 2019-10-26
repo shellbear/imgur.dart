@@ -18,14 +18,13 @@ class GalleryService extends BaseService {
     bool showViral = true,
     bool showMature = false,
     bool albumPreviews = false,
-  }) async {
-    return BaseResponseList<
-            GalleryAlbumImage>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/gallery/${fmtType(section)}/${fmtType(sort)}/${fmtType(window)}/$page?showViral=$showViral&mature=$showMature&album_previews=$albumPreviews'))
-            .body))
-        .data;
-  }
+  }) async =>
+      BaseResponseList<
+              GalleryAlbumImage>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/gallery/${fmtType(section)}/${fmtType(sort)}/${fmtType(window)}/$page?showViral=$showViral&mature=$showMature&album_previews=$albumPreviews'))
+              .body))
+          .data;
 
   /// Search the gallery with a given query.
   ///
@@ -36,20 +35,18 @@ class GalleryService extends BaseService {
     ViralSort sort = ViralSort.time,
     Window window = Window.all,
     Query query = Query.q,
-  }) async {
-    return BaseResponseList<
-            GalleryAlbumImage>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/gallery/search/${fmtType(sort)}/${fmtType(window)}/$page?${fmtType(query)}=$search'))
-            .body))
-        .data;
-  }
+  }) async =>
+      BaseResponseList<
+              GalleryAlbumImage>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/gallery/search/${fmtType(sort)}/${fmtType(window)}/$page?${fmtType(query)}=$search'))
+              .body))
+          .data;
 
   /// Get suggestions based on your search.
-  Future<List<String>> searchSuggestions(String search) async {
-    return BaseResponseList<String>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/reaction/suggest?q=$search'))
-            .body))
-        .data;
-  }
+  Future<List<String>> searchSuggestions(String search) async =>
+      BaseResponseList<String>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/reaction/suggest?q=$search'))
+              .body))
+          .data;
 }

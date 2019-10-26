@@ -13,7 +13,8 @@ class AlbumService extends BaseService {
     /// The image ids that you want to be included in the album.
     String ids,
 
-    /// The delete hashes of the images that you want to be included in the album.
+    /// The delete hashes of the images that you want to be included in the
+    /// album.
     String deleteHashes,
 
     /// The title of the album.
@@ -28,7 +29,7 @@ class AlbumService extends BaseService {
     /// The ID of an image that you want to be the cover of the album.
     String cover,
   }) async {
-    Map<String, String> body = Map<String, String>();
+    final body = <String, String>{};
 
     if (ids != null) {
       body['ids'] = ids;
@@ -61,66 +62,59 @@ class AlbumService extends BaseService {
   /// from the list of favorites.
   ///
   /// https://apidocs.imgur.com/?version=latest#31c72664-59c1-426f-98d7-ac7ad6547cc2
-  Future<String> favorite(String albumId) async {
-    return BaseResponse<String>.fromJson(json.decode((await client.request(
-                HttpMethod.POST, '/3/album/$albumId/favorite'))
-            .body))
-        .data;
-  }
+  Future<String> favorite(String albumId) async =>
+      BaseResponse<String>.fromJson(json.decode((await client.request(
+                  HttpMethod.POST, '/3/album/$albumId/favorite'))
+              .body))
+          .data;
 
   /// Get comments of a given album.
   Future<List<Comment>> getComments(String albumId,
-      {BestSort sort = BestSort.best}) async {
-    return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/album/$albumId/comments/${fmtType(sort)}/all'))
-            .body))
-        .data;
-  }
+          {BestSort sort = BestSort.best}) async =>
+      BaseResponseList<Comment>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/album/$albumId/comments/${fmtType(sort)}/all'))
+              .body))
+          .data;
 
   /// Get a details about a single image inside an album.
   ///
   /// https://apidocs.imgur.com/?version=latest#d4a30456-8905-40e0-8e14-9b51194c197e
-  Future<Image> getImage(String albumId, String imgId) async {
-    return BaseResponse<Image>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/album/$albumId/image/$imgId'))
-            .body))
-        .data;
-  }
+  Future<Image> getImage(String albumId, String imgId) async =>
+      BaseResponse<Image>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/album/$albumId/image/$imgId'))
+              .body))
+          .data;
 
   /// Get all images inside an album.
   ///
   /// https://apidocs.imgur.com/?version=latest#7dde894b-a967-4419-9be2-082fbf379109
-  Future<List<Image>> getImages(String albumId) async {
-    return BaseResponseList<Image>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/album/$albumId/images'))
-                .body))
-        .data;
-  }
+  Future<List<Image>> getImages(String albumId) async =>
+      BaseResponseList<Image>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET, '/3/album/$albumId/images'))
+                  .body))
+          .data;
 
   /// Get infos about a given album.
   ///
   /// https://apidocs.imgur.com/?version=latest#5369b915-ad8b-47b1-b44b-8e2561e41cee
-  Future<Album> getInfos(String albumId) async {
-    return BaseResponse<Album>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/album/$albumId')).body))
-        .data;
-  }
+  Future<Album> getInfos(String albumId) async =>
+      BaseResponse<Album>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET, '/3/album/$albumId')).body))
+          .data;
 
   /// Get votes about an album.
-  Future<Vote> getVotes(String albumId) async {
-    return BaseResponse.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/album/$albumId/votes'))
-                .body))
-        .data;
-  }
+  Future<Vote> getVotes(String albumId) async =>
+      BaseResponse<Vote>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET, '/3/album/$albumId/votes'))
+                  .body))
+          .data;
 
   /// Vote on an album. The vote parameter can only be set as up, down, or veto.
-  Future<bool> vote(String albumId, VoteType vote) async {
-    return BaseResponse<bool>.fromJson(json.decode((await client.request(
-                HttpMethod.POST,
-                '/3/gallery/album/$albumId/vote/${fmtType(vote)}'))
-            .body))
-        .data;
-  }
+  Future<bool> vote(String albumId, VoteType vote) async =>
+      BaseResponse<bool>.fromJson(json.decode((await client.request(
+                  HttpMethod.POST,
+                  '/3/gallery/album/$albumId/vote/${fmtType(vote)}'))
+              .body))
+          .data;
 }

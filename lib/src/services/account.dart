@@ -8,7 +8,7 @@ class AccountService extends BaseService {
 
   /// Associate images to account.
   Future<AssociateImage> associate(String deleteHashes) async {
-    Map<String, String> body = {'deletehashes': deleteHashes};
+    final body = {'deletehashes': deleteHashes};
 
     return BaseResponse<AssociateImage>.fromJson(json.decode((await client
                 .request(HttpMethod.POST, '/3/account/me/associateimages',
@@ -20,33 +20,29 @@ class AccountService extends BaseService {
   /// If authenticated, get the list of available avatars for the given user.
   ///
   /// https://apidocs.imgur.com/?version=latest#ff70e965-286b-4a36-9745-de646aedfb81
-  Future<AvatarListData> getAvailableAvatars({String username = 'me'}) async {
-    return BaseResponse<AvatarListData>.fromJson(json.decode(
-            (await client.request(
-                    HttpMethod.GET, '/3/account/$username/available_avatars'))
-                .body))
-        .data;
-  }
+  Future<AvatarListData> getAvailableAvatars({String username = 'me'}) async =>
+      BaseResponse<AvatarListData>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/account/$username/available_avatars'))
+              .body))
+          .data;
 
   /// Get the current account's avatar URL and avatar name.
   ///
   /// https://apidocs.imgur.com/?version=latest#6427d23d-2ad2-44e3-846d-65d7b042afbd
-  Future<AvatarData> getAvatar({String username = 'me'}) async {
-    return BaseResponse<AvatarData>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/avatar'))
-            .body))
-        .data;
-  }
+  Future<AvatarData> getAvatar({String username = 'me'}) async =>
+      BaseResponse<AvatarData>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/account/$username/avatar'))
+              .body))
+          .data;
 
   /// Return a count of all of the comments associated with the account.
   ///
   /// https://apidocs.imgur.com/?version=latest#e67c348d-c235-4839-8041-7244ced0c7db
-  Future<int> getCommentCount({String username = 'me'}) async {
-    return BaseResponse<int>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/comments/count'))
-            .body))
-        .data;
-  }
+  Future<int> getCommentCount({String username = 'me'}) async =>
+      BaseResponse<int>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/account/$username/comments/count'))
+              .body))
+          .data;
 
   /// Return the comments the user has created.
   ///
@@ -55,13 +51,12 @@ class AccountService extends BaseService {
     String username = 'me',
     DateBestSort sort = DateBestSort.newest,
     int page = 0,
-  }) async {
-    return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/account/$username/comments/${fmtType(sort)}/$page'))
-            .body))
-        .data;
-  }
+  }) async =>
+      BaseResponseList<Comment>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/account/$username/comments/${fmtType(sort)}/$page'))
+              .body))
+          .data;
 
   /// Return the user's favorite images in the gallery.
   ///
@@ -70,14 +65,13 @@ class AccountService extends BaseService {
     String username = 'me',
     int page = 0,
     FavoriteSort sort = FavoriteSort.newest,
-  }) async {
-    return BaseResponseList<
-            GalleryAlbumImage>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/account/$username/gallery_favorites/$page/${fmtType(sort)}'))
-            .body))
-        .data;
-  }
+  }) async =>
+      BaseResponseList<
+              GalleryAlbumImage>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/account/$username/gallery_favorites/$page/${fmtType(sort)}'))
+              .body))
+          .data;
 
   /// Returns the user's favorite images, only accessible if you're logged
   /// in as the user.
@@ -87,61 +81,57 @@ class AccountService extends BaseService {
     String username = 'me',
     int page = 0,
     FavoriteSort sort = FavoriteSort.newest,
-  }) async {
-    return BaseResponseList<GalleryAlbumImage>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET,
-                    '/3/account/$username/favorites/$page/${fmtType(sort)}'))
-                .body))
-        .data;
-  }
+  }) async =>
+      BaseResponseList<GalleryAlbumImage>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET,
+                      '/3/account/$username/favorites/$page/${fmtType(sort)}'))
+                  .body))
+          .data;
 
   /// Returns the total number of images associated with the account.
   ///
   /// https://apidocs.imgur.com/?version=latest#2c9edd88-e763-43b4-8ca8-557609d197c3
-  Future<int> getImageCount({String username = 'me'}) async {
-    return BaseResponse<int>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/images/count'))
-            .body))
-        .data;
-  }
+  Future<int> getImageCount({String username = 'me'}) async =>
+      BaseResponse<int>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/account/$username/images/count'))
+              .body))
+          .data;
 
   /// Return all of the images associated with the account.
   ///
   /// https://apidocs.imgur.com/?version=latest#2e45daca-bd44-47f8-84b0-b3f2aa861735
-  Future<List<Image>> getImages({String username = 'me', int page = 0}) async {
-    return BaseResponseList<Image>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/images/$page'))
-            .body))
-        .data;
-  }
+  Future<List<Image>> getImages({String username = 'me', int page = 0}) async =>
+      BaseResponseList<Image>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET, '/3/account/$username/images/$page'))
+              .body))
+          .data;
 
   /// Returns the account settings, only accessible if you're logged in as the
   /// user.
   ///
   /// https://apidocs.imgur.com/?version=latest#ce57e346-3515-4381-a772-ef5ade60bdee
-  Future<AccountSettings> getSettings() async {
-    return BaseResponse<AccountSettings>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/account/me/settings'))
-                .body))
-        .data;
-  }
+  Future<AccountSettings> getSettings() async =>
+      BaseResponse<AccountSettings>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET, '/3/account/me/settings'))
+                  .body))
+          .data;
 
   /// Return the images a user has submitted to the gallery.
   ///
   /// You can add sorting as well after paging. Sorts can be:
-  /// [DateBestSort.newest] (default), [DateBestSort.oldest], [DateBestSort.worst],
-  /// [DateBestSort.best].
+  /// [DateBestSort.newest] (default), [DateBestSort.oldest],
+  /// [DateBestSort.worst], [DateBestSort.best].
   Future<List<GalleryAlbumImage>> getSubmissions({
     String username = 'me',
     int page = 0,
     DateBestSort sort = DateBestSort.newest,
-  }) async {
-    return BaseResponseList<GalleryAlbumImage>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET,
-                    '/3/account/$username/submissions/$page/${fmtType(sort)}'))
-                .body))
-        .data;
-  }
+  }) async =>
+      BaseResponseList<
+              GalleryAlbumImage>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/account/$username/submissions/$page/${fmtType(sort)}'))
+              .body))
+          .data;
 
   /// Updates the account settings for a given user, the user must be logged in.
   ///
@@ -171,7 +161,7 @@ class AccountService extends BaseService {
     /// A valid Imgur username (between 4 and 63 alphanumeric characters).
     String username,
   }) async {
-    final Map<String, String> body = {};
+    final body = <String, String>{};
 
     if (bio != null) {
       body['bio'] = bio;

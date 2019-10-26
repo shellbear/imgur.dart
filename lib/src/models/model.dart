@@ -3,6 +3,7 @@ part of imgur.models;
 /// An abstract class used as a basis for each model.
 abstract class BaseModel {
   BaseModel.fromJson(Map<String, dynamic> json);
+
   Map<String, dynamic> toJson();
 }
 
@@ -14,7 +15,7 @@ int _dateTimeToTimestamp(DateTime dt) => dt.millisecondsSinceEpoch;
 String voteToString(VoteType vote) => fmtType(vote);
 
 VoteType stringToVote(String input) {
-  for (VoteType vote in VoteType.values) {
+  for (final vote in VoteType.values) {
     if (fmtType(vote) == input) {
       return vote;
     }

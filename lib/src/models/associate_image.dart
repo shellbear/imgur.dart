@@ -12,5 +12,6 @@ class AssociateImage implements BaseModel {
   factory AssociateImage.fromJson(Map<String, dynamic> json) =>
       _$AssociateImageFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$AssociateImageToJson(this);
 }

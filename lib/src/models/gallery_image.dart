@@ -105,7 +105,7 @@ class GalleryImage implements BaseModel {
   /// The image section.
   ///
   /// If the image has been categorized by Imgur's backend then this will
-  /// contain the section the image belongs in. (funny, cats, animals, wtf, etc).
+  /// contain the section the image belongs in.
   String section;
 
   /// The username of the account that uploaded it, or null.
@@ -188,5 +188,6 @@ class GalleryImage implements BaseModel {
   factory GalleryImage.fromJson(Map<String, dynamic> json) =>
       _$GalleryImageFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$GalleryImageToJson(this);
 }

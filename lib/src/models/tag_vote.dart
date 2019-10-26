@@ -22,5 +22,6 @@ class TagVote implements BaseModel {
   factory TagVote.fromJson(Map<String, dynamic> json) =>
       _$TagVoteFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$TagVoteToJson(this);
 }

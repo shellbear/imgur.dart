@@ -35,5 +35,7 @@ class Account implements BaseModel {
 
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$AccountToJson(this);
 }

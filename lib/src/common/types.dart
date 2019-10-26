@@ -18,7 +18,7 @@ enum DateBestSort { best, worst, oldest, newest }
 /// An enum representing Imgur Privacy options.
 enum Privacy { public, hidden, secret }
 
-/// A window represents the data range of a request if the section is [Sort.top].
+/// A window represents the data range of a request.
 enum Window { day, week, month, year, all }
 
 enum Section { hot, top, user }
@@ -52,4 +52,4 @@ enum HttpMethod { GET, POST, PUT, DELETE }
 ///
 /// Sort.time.toString() => 'Sort.time'
 /// fmtType(Sort.time) => 'time'
-final fmtType = (type) => type.toString().split('.').last;
+String fmtType(Object type) => type.toString().split('.').last;

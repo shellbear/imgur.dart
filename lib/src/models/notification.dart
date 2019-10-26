@@ -24,5 +24,6 @@ class Notification implements BaseModel {
   factory Notification.fromJson(Map<String, dynamic> json) =>
       _$NotificationFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$NotificationToJson(this);
 }

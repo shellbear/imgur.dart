@@ -147,5 +147,6 @@ class GalleryAlbum implements BaseModel {
   factory GalleryAlbum.fromJson(Map<String, dynamic> json) =>
       _$GalleryAlbumFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$GalleryAlbumToJson(this);
 }

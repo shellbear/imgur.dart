@@ -3,29 +3,33 @@
 An [Imgur](https://imgur.com/) API Client Library that uses Imgur's v3 API for [Dart](https://dart.dev/).
 
 [![pub package](https://img.shields.io/pub/v/imgur.svg)](https://pub.dev/packages/imgur)
+[![workflow status](https://github.com/ShellBear/imgur.dart/workflows/Dart%20CI/badge.svg)](https://github.com/ShellBear/imgur.dart/actions?workflow=Dart+CI)
 
 ## Usage
 
 A simple usage example to get your uploaded images:
 
 ```dart
-import 'package:imgur/imgur.dart';
+import 'package:imgur/imgur.dart' as imgur;
 
 main() async {
-  final client = Imgur(Authentication.fromToken('YOUR_IMGUR_ACCESS_TOKEN'));
+  final client = imgur.Imgur(imgur.Authentication.fromToken('YOUR_IMGUR_ACCESS_TOKEN'));
 
+  /// Get your uploaded images
   final resp = await client.account.getImages();
-  print(resp.data);
+
+  print(resp);
 }
+
 ```
 
 Upload an image:
 
 ```dart
-import 'package:imgur/imgur.dart';
+import 'package:imgur/imgur.dart' as imgur;
 
 main() async {
-  final client = Imgur(Authentication.fromToken('YOUR_IMGUR_ACCESS_TOKEN'));
+  final client = imgur.Imgur(imgur.Authentication.fromToken('YOUR_IMGUR_ACCESS_TOKEN'));
 
   /// Upload an image from path
   await client.image
@@ -33,7 +37,7 @@ main() async {
           imagePath: '/path/of/the/image.png',
           title: 'A title',
           description: 'A description')
-      .then((resp) => print('Uploaded image to: ${resp.data.link}'));
+      .then((image) => print('Uploaded image to: ${image.link}'));
 }
 ```
 

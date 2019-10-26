@@ -27,5 +27,6 @@ class Tag implements BaseModel {
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }

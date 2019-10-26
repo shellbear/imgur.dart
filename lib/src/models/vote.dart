@@ -15,5 +15,6 @@ class Vote implements BaseModel {
 
   factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$VoteToJson(this);
 }

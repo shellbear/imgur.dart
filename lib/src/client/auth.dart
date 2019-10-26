@@ -1,90 +1,133 @@
 part of imgur.client;
 
-const _AuthorizationUrlRegex =
-    'access_token=(\\w+)&expires_in=(\\d+)&token_type=(\\w+)' +
-        '&refresh_token=(\\w+)&account_username=(\\w+)&account_id=(\\d+)';
+const String _authorizationRegexUrl =
+    'access_token=(\\w+)&expires_in=(\\d+)&token_type=(\\w+)'
+    '&refresh_token=(\\w+)&account_username=(\\w+)&account_id=(\\d+)';
 
+/// A class used to authenticate user on every API request.
 @JsonSerializable()
 class Authentication {
   @JsonKey(name: 'access_token')
-  String accessToken;
+  String _accessToken;
 
   @JsonKey(name: 'expires_in')
-  String expiresIn;
+  // ignore: unused_field
+  String _expiresIn;
 
   @JsonKey(name: 'token_type')
-  String tokenType;
+  // ignore: unused_field
+  String _tokenType;
 
   @JsonKey(name: 'refresh_token')
-  String refreshToken;
+  String _refreshToken;
 
   @JsonKey(name: 'account_username')
-  String accountUsername;
+  // ignore: unused_field
+  String _accountUsername;
 
   @JsonKey(name: 'account_id')
-  String accountId;
+  // ignore: unused_field
+  String _accountId;
 
   @JsonKey(ignore: true)
-  String clientId;
+  String _clientId;
 
+  /// The default Authentication constructor.
   Authentication({
-    this.accessToken,
-    this.expiresIn,
-    this.tokenType,
-    this.refreshToken,
-    this.accountUsername,
-    this.accountId,
-    this.clientId,
-  });
+    String accessToken,
+    String expiresIn,
+    String tokenType,
+    String refreshToken,
+    String accountUsername,
+    String accountId,
+    String clientId,
+  })  : _accessToken = accessToken,
+        _expiresIn = expiresIn,
+        _tokenType = tokenType,
+        _refreshToken = refreshToken,
+        _accountUsername = accountUsername,
+        _accountId = accountId,
+        _clientId = clientId;
 
+  /// Initialize an Authentication instance for non connected user.
   Authentication.anonymous();
 
+  /// Generate authentication from an OAuth2 authorization response.
   Authentication.fromAuthorization({
-    this.accessToken,
-    this.expiresIn,
-    this.tokenType,
-    this.refreshToken,
-    this.accountUsername,
-    this.accountId,
-  });
+    String accessToken,
+    String expiresIn,
+    String tokenType,
+    String refreshToken,
+    String accountUsername,
+    String accountId,
+  })  : _accessToken = accessToken,
+        _expiresIn = expiresIn,
+        _tokenType = tokenType,
+        _refreshToken = refreshToken,
+        _accountUsername = accountUsername,
+        _accountId = accountId;
 
-  Authentication.fromClientId(this.clientId);
+  /// Authentication from user's client id.
+  Authentication.fromClientId(this._clientId);
 
   factory Authentication.fromJson(Map<String, dynamic> json) =>
       _$AuthenticationFromJson(json);
 
-  Authentication.fromToken(this.accessToken);
+  /// Authentication from user's access token.
+  Authentication.fromToken(this._accessToken);
 
+  /// Get authentication headers.
   Map<String, String> get headers {
-    Map<String, String> headers = Map<String, String>();
+    final headers = <String, String>{};
 
-    if (clientId != null && accessToken == null) {
-      headers[HttpHeaders.authorizationHeader] = 'Client-ID ${clientId}';
-    } else if (accessToken != null) {
-      headers[HttpHeaders.authorizationHeader] = 'Bearer ${accessToken}';
+    if (_clientId != null && _accessToken == null) {
+      headers[HttpHeaders.authorizationHeader] = 'Client-ID $_clientId';
+    } else if (_accessToken != null) {
+      headers[HttpHeaders.authorizationHeader] = 'Bearer $_accessToken';
     }
 
     return headers;
   }
 
-  bool get isAnonymous => accessToken == null && clientId == null;
+  /// Is user connected or not.
+  bool get isAnonymous => _accessToken == null && _clientId == null;
+
+  /// Refresh token if possible.
+  Future<void> refresh() async {
+    if (isAnonymous || _refreshToken == null) {
+      return Future<void>.error(
+          'You can\'t refresh token if you\'re not connected or refreshToken'
+          'is empty.');
+    }
+
+    final resp = await http.Client().post('https://api.imgur.com/oauth2/token',
+        body: toJson().cast<String, String>());
+
+    if (resp.statusCode != 200) {
+      return Future<void>.error(
+          'Error refreshing access token! ${resp.statusCode}');
+    }
+
+    _accessToken = Authentication.fromJson(json.decode(resp.body))._accessToken;
+  }
 
   Map<String, dynamic> toJson() => _$AuthenticationToJson(this);
 
-  static Authentication fromAuthorizationUrl(String url) {
-    var regExp = RegExp(_AuthorizationUrlRegex);
+  Authentication fromAuthorizationUrl(String url) {
+    final regExp = RegExp(_authorizationRegexUrl);
 
     if (!regExp.hasMatch(url)) {
       throw ArgumentError('Authorization URL is invalid');
     }
 
-    var match = regExp.firstMatch(url);
+    final match = regExp.firstMatch(url);
     return Authentication.fromAuthorization(
-        accessToken: match.group(1),
-        expiresIn: match.group(2),
-        tokenType: match.group(3),
-        refreshToken: match.group(4),
-        accountUsername: match.group(5),
-        accountId: match.group(6));
+      accessToken: match.group(1),
+      expiresIn: match.group(2),
+      tokenType: match.group(3),
+      refreshToken: match.group(4),
+      accountUsername: match.group(5),
+      accountId: match.group(6),
+    );
   }
 }

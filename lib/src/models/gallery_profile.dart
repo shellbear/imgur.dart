@@ -30,5 +30,6 @@ class GalleryProfile implements BaseModel {
   factory GalleryProfile.fromJson(Map<String, dynamic> json) =>
       _$GalleryProfileFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$GalleryProfileToJson(this);
 }

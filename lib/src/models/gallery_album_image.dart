@@ -211,9 +211,10 @@ class GalleryAlbumImage implements BaseModel {
   factory GalleryAlbumImage.fromJson(Map<String, dynamic> json) =>
       _$GalleryAlbumImageFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$GalleryAlbumImageToJson(this);
 
-  GalleryAlbum toAlbum() => GalleryAlbum.fromJson(this.toJson());
+  GalleryAlbum toAlbum() => GalleryAlbum.fromJson(toJson());
 
-  GalleryImage toImage() => GalleryImage.fromJson(this.toJson());
+  GalleryImage toImage() => GalleryImage.fromJson(toJson());
 }

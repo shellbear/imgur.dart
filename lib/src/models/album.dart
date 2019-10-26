@@ -60,7 +60,7 @@ class Album implements BaseModel {
   bool nsfw;
 
   /// If the image has been categorized by our backend then this will contain
-  /// the section the image belongs in. (funny, cats, animals, wtf, etc)
+  /// the section the image belongs in.
   String section;
 
   /// Order number of the album on the user's album page
@@ -110,5 +110,6 @@ class Album implements BaseModel {
 
   factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$AlbumToJson(this);
 }

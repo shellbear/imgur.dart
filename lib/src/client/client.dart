@@ -12,48 +12,31 @@ class Imgur {
   CommentService _comment;
 
   Imgur(this.auth,
-      {this.baseUrl = 'https://api.imgur.com/', http.Client client})
-      : this.client = client != null ? client : http.Client();
+      {this.baseUrl = 'https://api.imgur.com/', http.Client httpClient})
+      : client = httpClient ?? http.Client();
 
-  AccountService get account {
-    if (_account == null) {
-      _account = AccountService(this);
-    }
-    return _account;
-  }
+  AccountService get account => _account ??= AccountService(this);
 
-  AlbumService get album {
-    if (_album == null) {
-      _album = AlbumService(this);
-    }
-    return _album;
-  }
+  AlbumService get album => _album ??= AlbumService(this);
 
-  CommentService get comment {
-    if (_comment == null) {
-      _comment = CommentService(this);
-    }
-    return _comment;
-  }
+  CommentService get comment => _comment ??= CommentService(this);
 
-  GalleryService get gallery {
-    if (_gallery == null) {
-      _gallery = GalleryService(this);
-    }
-    return _gallery;
-  }
+  GalleryService get gallery => _gallery ??= GalleryService(this);
 
-  ImageService get image {
-    if (_image == null) {
-      _image = ImageService(this);
-    }
-    return _image;
-  }
+  ImageService get image => _image ??= ImageService(this);
 
+  /// Make a new http request.
   Future<http.Response> request(
+    /// The http method.
     HttpMethod method,
+
+    /// The path URL relative to [baseUrl].
     String path, {
+
+    /// An optional [Map] of additional http headers.
     Map<String, String> headers,
+
+    /// An optional body to send with.
     dynamic body,
   }) async {
     final uri = Uri.parse(baseUrl).resolve(path);
@@ -72,7 +55,7 @@ class Imgur {
       req.headers.addAll(headers);
     }
 
-    return await _sendRequest(req);
+    return _sendRequest(req);
   }
 
   Future<http.Response> upload(
@@ -97,7 +80,7 @@ class Imgur {
       req.headers.addAll(headers);
     }
 
-    return await _sendRequest(req);
+    return _sendRequest(req);
   }
 
   Future<http.Response> _sendRequest(http.BaseRequest req) async {

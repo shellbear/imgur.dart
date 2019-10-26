@@ -1,14 +1,14 @@
-import 'package:test/test.dart';
 import 'package:imgur/imgur.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('Invalid token', () {
     final client = Imgur(Authentication.fromToken('invalid'));
 
     client.account.getSettings().then((_) {
-      assert(false);
+      assert(false, 'An error should occur');
     }).catchError((_) {
-      assert(true);
+      assert(true, 'An error should occur');
     });
   });
 
@@ -18,7 +18,7 @@ void main() {
         'data': 'INVALID',
       });
     } catch (_) {
-      assert(true);
+      assert(true, 'An error should occur');
     }
   });
 
@@ -28,7 +28,7 @@ void main() {
         'data': 'INVALID',
       });
     } catch (_) {
-      assert(true);
+      assert(true, 'An error should occur');
     }
   });
 }

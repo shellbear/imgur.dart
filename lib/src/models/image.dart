@@ -85,7 +85,7 @@ class Image implements BaseModel {
   dynamic topicId;
 
   /// If the image has been categorized by Imgur's backend then this will
-  /// contain the section the image belongs in. (funny, cats, animals, wtf, etc).
+  /// contain the section the image belongs in.
   String section;
 
   /// The username of the account that uploaded it, or null.
@@ -185,5 +185,6 @@ class Image implements BaseModel {
 
   factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ImageToJson(this);
 }

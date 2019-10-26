@@ -42,5 +42,6 @@ class Topic implements BaseModel {
 
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$TopicToJson(this);
 }

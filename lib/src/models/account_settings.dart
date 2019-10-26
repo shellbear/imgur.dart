@@ -66,5 +66,6 @@ class AccountSettings implements BaseModel {
   factory AccountSettings.fromJson(Map<String, dynamic> json) =>
       _$AccountSettingsFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$AccountSettingsToJson(this);
 }

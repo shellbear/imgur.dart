@@ -14,6 +14,7 @@ class Avatar implements BaseModel {
 
   factory Avatar.fromJson(Map<String, dynamic> json) => _$AvatarFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$AvatarToJson(this);
 }
 
@@ -32,6 +33,7 @@ class AvatarData implements BaseModel {
   factory AvatarData.fromJson(Map<String, dynamic> json) =>
       _$AvatarDataFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$AvatarDataToJson(this);
 }
 
@@ -58,5 +60,6 @@ class AvatarListData implements BaseModel {
   factory AvatarListData.fromJson(Map<String, dynamic> json) =>
       _$AvatarListDataFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$AvatarListDataToJson(this);
 }

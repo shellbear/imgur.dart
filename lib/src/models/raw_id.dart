@@ -10,5 +10,6 @@ class RawId implements BaseModel {
 
   factory RawId.fromJson(Map<String, dynamic> json) => _$RawIdFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$RawIdToJson(this);
 }

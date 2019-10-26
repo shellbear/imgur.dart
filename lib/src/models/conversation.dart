@@ -62,5 +62,6 @@ class Conversation implements BaseModel {
   factory Conversation.fromJson(Map<String, dynamic> json) =>
       _$ConversationFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ConversationToJson(this);
 }

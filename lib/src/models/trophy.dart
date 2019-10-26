@@ -42,5 +42,6 @@ class Trophy implements BaseModel {
 
   factory Trophy.fromJson(Map<String, dynamic> json) => _$TrophyFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$TrophyToJson(this);
 }

@@ -9,11 +9,11 @@ class ImageService extends BaseService {
   /// Delete an image.
   ///
   /// https://apidocs.imgur.com/?version=latest#ca48883b-6964-4ab8-b87f-c274e32a970d
-  Future<bool> delete(String imgId) async {
-    return BaseResponse<bool>.fromJson(json.decode(
-            (await client.request(HttpMethod.DELETE, '/3/image/$imgId')).body))
-        .data;
-  }
+  Future<bool> delete(String imgId) async =>
+      BaseResponse<bool>.fromJson(json.decode(
+              (await client.request(HttpMethod.DELETE, '/3/image/$imgId'))
+                  .body))
+          .data;
 
   /// Add or remove an image to favorites.
   ///
@@ -21,45 +21,41 @@ class ImageService extends BaseService {
   /// from the list of favorites.
   ///
   /// https://apidocs.imgur.com/?version=latest#5dd1c471-a806-43cb-9067-f5e4fc8f28bd
-  Future<String> favorite(String imgId) async {
-    return BaseResponse<String>.fromJson(json.decode(
-            (await client.request(HttpMethod.POST, '/3/image/$imgId/favorite'))
-                .body))
-        .data;
-  }
+  Future<String> favorite(String imgId) async =>
+      BaseResponse<String>.fromJson(json.decode((await client.request(
+                  HttpMethod.POST, '/3/image/$imgId/favorite'))
+              .body))
+          .data;
 
   /// Get comments of given image.
   Future<List<Comment>> getComments(String imgId,
-      {BestSort sort = BestSort.best}) async {
-    return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/image/$imgId/comments/${fmtType(sort)}/all'))
-            .body))
-        .data;
-  }
+          {BestSort sort = BestSort.best}) async =>
+      BaseResponseList<Comment>.fromJson(json.decode((await client.request(
+                  HttpMethod.GET,
+                  '/3/image/$imgId/comments/${fmtType(sort)}/all'))
+              .body))
+          .data;
 
   /// Get infos about an image.
   ///
   /// https://apidocs.imgur.com/?version=latest#2078c7e0-c2b8-4bc8-a646-6e544b087d0f
-  Future<Image> getInfos(String imgId) async {
-    return BaseResponse<Image>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/image/$imgId')).body))
-        .data;
-  }
+  Future<Image> getInfos(String imgId) async =>
+      BaseResponse<Image>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET, '/3/image/$imgId')).body))
+          .data;
 
   /// Get votes about an image.
-  Future<Vote> getVotes(String imgId) async {
-    return BaseResponse<Vote>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/image/$imgId/votes'))
-                .body))
-        .data;
-  }
+  Future<Vote> getVotes(String imgId) async =>
+      BaseResponse<Vote>.fromJson(json.decode(
+              (await client.request(HttpMethod.GET, '/3/image/$imgId/votes'))
+                  .body))
+          .data;
 
   /// Updates the title or description of an image.
   ///
   /// https://apidocs.imgur.com/?version=latest#7db0c13c-bf70-4e87-aecf-047abc65686d
   Future<bool> update(String imgId, {String title, String description}) async {
-    final Map<String, String> body = {};
+    final body = <String, String>{};
 
     if (title != null) {
       body['title'] = title;
@@ -88,11 +84,11 @@ class ImageService extends BaseService {
     String imageBase64,
 
     /// The id of the album you want to add the image to. For anonymous albums,
-    /// [album] should be the delete hash that is returned at creation.
+    /// album should be the delete hash that is returned at creation.
     String albumId,
 
     /// The name of the image, this is automatically detected if image is
-    /// passed via [imageFile] parameter.
+    /// passed via imageFile parameter.
     String name,
 
     /// The title of the image.
@@ -101,11 +97,11 @@ class ImageService extends BaseService {
     /// The description of the image.
     String description,
   }) async {
-    List<http.MultipartFile> files = List<http.MultipartFile>();
-    Map<String, String> body = Map<String, String>();
+    final files = <http.MultipartFile>[];
+    final body = <String, String>{};
 
     if (imageFile != null) {
-      files.add(await http.MultipartFile.fromBytes(
+      files.add(http.MultipartFile.fromBytes(
           'image', imageFile.readAsBytesSync(),
           filename: imageFile.path));
       body['type'] = 'file';
@@ -135,7 +131,7 @@ class ImageService extends BaseService {
       body['description'] = description;
     }
 
-    return await _upload(body: body, files: files);
+    return _upload(body: body, files: files);
   }
 
   /// Upload a video to your Imgur account.
@@ -150,7 +146,7 @@ class ImageService extends BaseService {
     String albumId,
 
     /// The name of the image, this is automatically detected if image is passed
-    /// via [videoFile] parameter.
+    /// via videoFile parameter.
     String name,
 
     /// The title of the video.
@@ -162,11 +158,11 @@ class ImageService extends BaseService {
     /// Will remove the audio track from a video file
     bool disableAudio,
   }) async {
-    List<http.MultipartFile> files = List<http.MultipartFile>();
-    Map<String, String> body = {'type': 'file'};
+    final files = <http.MultipartFile>[];
+    final body = {'type': 'file'};
 
     if (videoFile != null) {
-      files.add(await http.MultipartFile.fromBytes(
+      files.add(http.MultipartFile.fromBytes(
           'video', videoFile.readAsBytesSync(),
           filename: videoFile.path));
     } else if (videoPath != null) {
@@ -191,29 +187,28 @@ class ImageService extends BaseService {
       body['disableAudio'] = (disableAudio ? 1 : 0).toString();
     }
 
-    return await _upload(body: body, files: files);
+    return _upload(body: body, files: files);
   }
 
   /// Vote on an image.
   ///
   /// The vote parameter can only be set as [VoteType.up], [VoteType.down], or
   /// [VoteType.veto].
-  Future<bool> vote(String imgId, VoteType vote) async {
-    return BaseResponse<bool>.fromJson(json.decode((await client.request(
-                HttpMethod.POST,
-                '/3/gallery/image/$imgId/vote/${fmtType(vote)}'))
-            .body))
-        .data;
-  }
+  Future<bool> vote(String imgId, VoteType vote) async =>
+      BaseResponse<bool>.fromJson(json.decode((await client.request(
+                  HttpMethod.POST,
+                  '/3/gallery/image/$imgId/vote/${fmtType(vote)}'))
+              .body))
+          .data;
 
   /// An upload helper function for image/video.
   ///
   /// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
   Future<Image> _upload(
-      {List<http.MultipartFile> files, Map<String, String> body}) async {
-    return BaseResponse.fromJson(json.decode((await client
-                .upload(HttpMethod.POST, '/3/upload', body: body, files: files))
-            .body))
-        .data;
-  }
+          {List<http.MultipartFile> files, Map<String, String> body}) async =>
+      BaseResponse.fromJson(json.decode((await client.upload(
+                  HttpMethod.POST, '/3/upload',
+                  body: body, files: files))
+              .body))
+          .data;
 }

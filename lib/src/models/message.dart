@@ -43,5 +43,6 @@ class Message implements BaseModel {
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$MessageToJson(this);
 }
