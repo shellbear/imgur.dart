@@ -1,20 +1,15 @@
 library imgur.client;
 
 import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:imgur/imgur.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'dart:convert';
 
+import 'package:http/http.dart' as http;
+import 'package:json_annotation/json_annotation.dart';
+
+import 'services.dart';
 import 'common.dart';
 
-part 'client.g.dart';
-
-part 'client/services/account.dart';
-part 'client/services/service.dart';
-part 'client/services/image.dart';
-part 'client/services/gallery.dart';
-part 'client/services/album.dart';
-part 'client/services/comment.dart';
-part 'client/client.dart';
 part 'client/auth.dart';
+
+part 'client/client.dart';
+
+part 'client.g.dart';

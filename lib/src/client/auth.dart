@@ -38,8 +38,7 @@ class Authentication {
   });
 
   Authentication.anonymous();
-  Authentication.fromToken(this.accessToken);
-  Authentication.fromClientId(this.clientId);
+
   Authentication.fromAuthorization({
     this.accessToken,
     this.expiresIn,
@@ -48,6 +47,29 @@ class Authentication {
     this.accountUsername,
     this.accountId,
   });
+
+  Authentication.fromClientId(this.clientId);
+
+  factory Authentication.fromJson(Map<String, dynamic> json) =>
+      _$AuthenticationFromJson(json);
+
+  Authentication.fromToken(this.accessToken);
+
+  Map<String, String> get headers {
+    Map<String, String> headers = Map<String, String>();
+
+    if (clientId != null && accessToken == null) {
+      headers[HttpHeaders.authorizationHeader] = 'Client-ID ${clientId}';
+    } else if (accessToken != null) {
+      headers[HttpHeaders.authorizationHeader] = 'Bearer ${accessToken}';
+    }
+
+    return headers;
+  }
+
+  bool get isAnonymous => accessToken == null && clientId == null;
+
+  Map<String, dynamic> toJson() => _$AuthenticationToJson(this);
 
   static Authentication fromAuthorizationUrl(String url) {
     var regExp = RegExp(_AuthorizationUrlRegex);
@@ -65,22 +87,4 @@ class Authentication {
         accountUsername: match.group(5),
         accountId: match.group(6));
   }
-
-  Map<String, String> get headers {
-    Map<String, String> headers = Map<String, String>();
-
-    if (clientId != null && accessToken == null) {
-      headers[HttpHeaders.authorizationHeader] = 'Client-ID ${clientId}';
-    } else if (accessToken != null) {
-      headers[HttpHeaders.authorizationHeader] = 'Bearer ${accessToken}';
-    }
-
-    return headers;
-  }
-
-  bool get isAnonymous => accessToken == null && clientId == null;
-
-  factory Authentication.fromJson(Map<String, dynamic> json) =>
-      _$AuthenticationFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthenticationToJson(this);
 }

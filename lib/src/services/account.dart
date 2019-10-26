@@ -1,4 +1,4 @@
-part of imgur.client;
+part of imgur.services;
 
 /// A service for user's account.
 ///
@@ -6,23 +6,25 @@ part of imgur.client;
 class AccountService extends BaseService {
   AccountService(Imgur client) : super(client);
 
-  /// Return all of the images associated with the account.
-  ///
-  /// https://apidocs.imgur.com/?version=latest#2e45daca-bd44-47f8-84b0-b3f2aa861735
-  Future<List<Image>> getImages({String username = 'me', int page = 0}) async {
-    return BaseResponseList<Image>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/images/$page'))
+  /// Associate images to account.
+  Future<AssociateImage> associate(String deleteHashes) async {
+    Map<String, String> body = {'deletehashes': deleteHashes};
+
+    return BaseResponse<AssociateImage>.fromJson(json.decode((await client
+                .request(HttpMethod.POST, '/3/account/me/associateimages',
+                    body: body))
             .body))
         .data;
   }
 
-  /// Returns the total number of images associated with the account.
+  /// If authenticated, get the list of available avatars for the given user.
   ///
-  /// https://apidocs.imgur.com/?version=latest#2c9edd88-e763-43b4-8ca8-557609d197c3
-  Future<int> getImageCount({String username = 'me'}) async {
-    return BaseResponse<int>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/images/count'))
-            .body))
+  /// https://apidocs.imgur.com/?version=latest#ff70e965-286b-4a36-9745-de646aedfb81
+  Future<AvatarListData> getAvailableAvatars({String username = 'me'}) async {
+    return BaseResponse<AvatarListData>.fromJson(json.decode(
+            (await client.request(
+                    HttpMethod.GET, '/3/account/$username/available_avatars'))
+                .body))
         .data;
   }
 
@@ -36,25 +38,28 @@ class AccountService extends BaseService {
         .data;
   }
 
-  /// Returns the account settings, only accessible if you're logged in as the
-  /// user.
+  /// Return a count of all of the comments associated with the account.
   ///
-  /// https://apidocs.imgur.com/?version=latest#ce57e346-3515-4381-a772-ef5ade60bdee
-  Future<AccountSettings> getSettings() async {
-    return BaseResponse<AccountSettings>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/account/me/settings'))
-                .body))
+  /// https://apidocs.imgur.com/?version=latest#e67c348d-c235-4839-8041-7244ced0c7db
+  Future<int> getCommentCount({String username = 'me'}) async {
+    return BaseResponse<int>.fromJson(json.decode((await client.request(
+                HttpMethod.GET, '/3/account/$username/comments/count'))
+            .body))
         .data;
   }
 
-  /// If authenticated, get the list of available avatars for the given user.
+  /// Return the comments the user has created.
   ///
-  /// https://apidocs.imgur.com/?version=latest#ff70e965-286b-4a36-9745-de646aedfb81
-  Future<AvatarListData> getAvailableAvatars({String username = 'me'}) async {
-    return BaseResponse<AvatarListData>.fromJson(json.decode(
-            (await client.request(
-                    HttpMethod.GET, '/3/account/$username/available_avatars'))
-                .body))
+  /// https://apidocs.imgur.com/?version=latest#a1813588-ec93-46c4-985b-9e53d7b1c316
+  Future<List<Comment>> getComments({
+    String username = 'me',
+    DateBestSort sort = DateBestSort.newest,
+    int page = 0,
+  }) async {
+    return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
+                HttpMethod.GET,
+                '/3/account/$username/comments/${fmtType(sort)}/$page'))
+            .body))
         .data;
   }
 
@@ -90,6 +95,37 @@ class AccountService extends BaseService {
         .data;
   }
 
+  /// Returns the total number of images associated with the account.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#2c9edd88-e763-43b4-8ca8-557609d197c3
+  Future<int> getImageCount({String username = 'me'}) async {
+    return BaseResponse<int>.fromJson(json.decode((await client.request(
+                HttpMethod.GET, '/3/account/$username/images/count'))
+            .body))
+        .data;
+  }
+
+  /// Return all of the images associated with the account.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#2e45daca-bd44-47f8-84b0-b3f2aa861735
+  Future<List<Image>> getImages({String username = 'me', int page = 0}) async {
+    return BaseResponseList<Image>.fromJson(json.decode((await client.request(
+                HttpMethod.GET, '/3/account/$username/images/$page'))
+            .body))
+        .data;
+  }
+
+  /// Returns the account settings, only accessible if you're logged in as the
+  /// user.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#ce57e346-3515-4381-a772-ef5ade60bdee
+  Future<AccountSettings> getSettings() async {
+    return BaseResponse<AccountSettings>.fromJson(json.decode(
+            (await client.request(HttpMethod.GET, '/3/account/me/settings'))
+                .body))
+        .data;
+  }
+
   /// Return the images a user has submitted to the gallery.
   ///
   /// You can add sorting as well after paging. Sorts can be:
@@ -104,42 +140,6 @@ class AccountService extends BaseService {
             (await client.request(HttpMethod.GET,
                     '/3/account/$username/submissions/$page/${fmtType(sort)}'))
                 .body))
-        .data;
-  }
-
-  /// Return the comments the user has created.
-  ///
-  /// https://apidocs.imgur.com/?version=latest#a1813588-ec93-46c4-985b-9e53d7b1c316
-  Future<List<Comment>> getComments({
-    String username = 'me',
-    DateBestSort sort = DateBestSort.newest,
-    int page = 0,
-  }) async {
-    return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
-                HttpMethod.GET,
-                '/3/account/$username/comments/${fmtType(sort)}/$page'))
-            .body))
-        .data;
-  }
-
-  /// Associate images to account.
-  Future<AssociateImage> associate(String deleteHashes) async {
-    Map<String, String> body = {'deletehashes': deleteHashes};
-
-    return BaseResponse<AssociateImage>.fromJson(json.decode((await client
-                .request(HttpMethod.POST, '/3/account/me/associateimages',
-                    body: body))
-            .body))
-        .data;
-  }
-
-  /// Return a count of all of the comments associated with the account.
-  ///
-  /// https://apidocs.imgur.com/?version=latest#e67c348d-c235-4839-8041-7244ced0c7db
-  Future<int> getCommentCount({String username = 'me'}) async {
-    return BaseResponse<int>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/account/$username/comments/count'))
-            .body))
         .data;
   }
 

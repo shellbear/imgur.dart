@@ -7,3 +7,4 @@ library imgur;
 export 'src/client.dart';
 export 'src/common.dart';
 export 'src/models.dart';
+export 'src/services.dart';

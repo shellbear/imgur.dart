@@ -1,20 +1,10 @@
-part of imgur.client;
+part of imgur.services;
 
 /// A service for comments.
 ///
 /// https://apidocs.imgur.com/?version=latest#f9236628-fd66-4b4a-bf3c-fb65074dd560
 class CommentService extends BaseService {
   CommentService(Imgur client) : super(client);
-
-  /// Get information about a specific comment.
-  ///
-  /// https://apidocs.imgur.com/?version=latest#fba2b4a0-a0b9-47e0-80ae-f2f41201f2c3
-  Future<Comment> getInfos(int commentId) async {
-    return BaseResponse<Comment>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/comment/$commentId'))
-                .body))
-        .data;
-  }
 
   /// Creates a new comment, returns the ID of the comment.
   ///
@@ -41,6 +31,16 @@ class CommentService extends BaseService {
   Future<bool> delete(int commentId) async {
     return BaseResponse<bool>.fromJson(json.decode(
             (await client.request(HttpMethod.DELETE, '/3/comment/$commentId'))
+                .body))
+        .data;
+  }
+
+  /// Get information about a specific comment.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#fba2b4a0-a0b9-47e0-80ae-f2f41201f2c3
+  Future<Comment> getInfos(int commentId) async {
+    return BaseResponse<Comment>.fromJson(json.decode(
+            (await client.request(HttpMethod.GET, '/3/comment/$commentId'))
                 .body))
         .data;
   }

@@ -15,42 +15,39 @@ class Imgur {
       {this.baseUrl = 'https://api.imgur.com/', http.Client client})
       : this.client = client != null ? client : http.Client();
 
-  Future<http.Response> _sendRequest(http.BaseRequest req) async {
-    req.headers.addAll(auth.headers);
-
-    final streamedResponse = await client.send(req);
-    final response = await http.Response.fromStream(streamedResponse);
-
-    if (response.statusCode >= 400) {
-      return Future.error(response);
+  AccountService get account {
+    if (_account == null) {
+      _account = AccountService(this);
     }
-
-    return response;
+    return _account;
   }
 
-  Future<http.Response> upload(
-    HttpMethod method,
-    String path, {
-    Map<String, String> headers,
-    Map<String, String> body,
-    List<http.MultipartFile> files,
-  }) async {
-    final uri = Uri.parse(baseUrl).resolve(path);
-    final req = http.MultipartRequest(fmtType(method), uri);
-
-    if (body != null) {
-      req.fields.addAll(body);
+  AlbumService get album {
+    if (_album == null) {
+      _album = AlbumService(this);
     }
+    return _album;
+  }
 
-    if (files != null) {
-      req.files.addAll(files);
+  CommentService get comment {
+    if (_comment == null) {
+      _comment = CommentService(this);
     }
+    return _comment;
+  }
 
-    if (headers != null) {
-      req.headers.addAll(headers);
+  GalleryService get gallery {
+    if (_gallery == null) {
+      _gallery = GalleryService(this);
     }
+    return _gallery;
+  }
 
-    return await _sendRequest(req);
+  ImageService get image {
+    if (_image == null) {
+      _image = ImageService(this);
+    }
+    return _image;
   }
 
   Future<http.Response> request(
@@ -78,38 +75,41 @@ class Imgur {
     return await _sendRequest(req);
   }
 
-  GalleryService get gallery {
-    if (_gallery == null) {
-      _gallery = GalleryService(this);
+  Future<http.Response> upload(
+    HttpMethod method,
+    String path, {
+    Map<String, String> headers,
+    Map<String, String> body,
+    List<http.MultipartFile> files,
+  }) async {
+    final uri = Uri.parse(baseUrl).resolve(path);
+    final req = http.MultipartRequest(fmtType(method), uri);
+
+    if (body != null) {
+      req.fields.addAll(body);
     }
-    return _gallery;
+
+    if (files != null) {
+      req.files.addAll(files);
+    }
+
+    if (headers != null) {
+      req.headers.addAll(headers);
+    }
+
+    return await _sendRequest(req);
   }
 
-  ImageService get image {
-    if (_image == null) {
-      _image = ImageService(this);
-    }
-    return _image;
-  }
+  Future<http.Response> _sendRequest(http.BaseRequest req) async {
+    req.headers.addAll(auth.headers);
 
-  AlbumService get album {
-    if (_album == null) {
-      _album = AlbumService(this);
-    }
-    return _album;
-  }
+    final streamedResponse = await client.send(req);
+    final response = await http.Response.fromStream(streamedResponse);
 
-  AccountService get account {
-    if (_account == null) {
-      _account = AccountService(this);
+    if (response.statusCode >= 400) {
+      return Future.error(response);
     }
-    return _account;
-  }
 
-  CommentService get comment {
-    if (_comment == null) {
-      _comment = CommentService(this);
-    }
-    return _comment;
+    return response;
   }
 }

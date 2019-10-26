@@ -1,4 +1,4 @@
-part of imgur.client;
+part of imgur.services;
 
 /// A service for albums.
 ///
@@ -55,12 +55,16 @@ class AlbumService extends BaseService {
         .data;
   }
 
-  /// Get infos about a given album.
+  /// Add or remove an album to favorites.
   ///
-  /// https://apidocs.imgur.com/?version=latest#5369b915-ad8b-47b1-b44b-8e2561e41cee
-  Future<Album> getInfos(String albumId) async {
-    return BaseResponse<Album>.fromJson(json.decode(
-            (await client.request(HttpMethod.GET, '/3/album/$albumId')).body))
+  /// If [favorite] is called on a favorite album, then the it will be removed
+  /// from the list of favorites.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#31c72664-59c1-426f-98d7-ac7ad6547cc2
+  Future<String> favorite(String albumId) async {
+    return BaseResponse<String>.fromJson(json.decode((await client.request(
+                HttpMethod.POST, '/3/album/$albumId/favorite'))
+            .body))
         .data;
   }
 
@@ -70,6 +74,16 @@ class AlbumService extends BaseService {
     return BaseResponseList<Comment>.fromJson(json.decode((await client.request(
                 HttpMethod.GET,
                 '/3/album/$albumId/comments/${fmtType(sort)}/all'))
+            .body))
+        .data;
+  }
+
+  /// Get a details about a single image inside an album.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#d4a30456-8905-40e0-8e14-9b51194c197e
+  Future<Image> getImage(String albumId, String imgId) async {
+    return BaseResponse<Image>.fromJson(json.decode((await client.request(
+                HttpMethod.GET, '/3/album/$albumId/image/$imgId'))
             .body))
         .data;
   }
@@ -84,34 +98,20 @@ class AlbumService extends BaseService {
         .data;
   }
 
+  /// Get infos about a given album.
+  ///
+  /// https://apidocs.imgur.com/?version=latest#5369b915-ad8b-47b1-b44b-8e2561e41cee
+  Future<Album> getInfos(String albumId) async {
+    return BaseResponse<Album>.fromJson(json.decode(
+            (await client.request(HttpMethod.GET, '/3/album/$albumId')).body))
+        .data;
+  }
+
   /// Get votes about an album.
   Future<Vote> getVotes(String albumId) async {
     return BaseResponse.fromJson(json.decode(
             (await client.request(HttpMethod.GET, '/3/album/$albumId/votes'))
                 .body))
-        .data;
-  }
-
-  /// Get a details about a single image inside an album.
-  ///
-  /// https://apidocs.imgur.com/?version=latest#d4a30456-8905-40e0-8e14-9b51194c197e
-  Future<Image> getImage(String albumId, String imgId) async {
-    return BaseResponse<Image>.fromJson(json.decode((await client.request(
-                HttpMethod.GET, '/3/album/$albumId/image/$imgId'))
-            .body))
-        .data;
-  }
-
-  /// Add or remove an album to favorites.
-  ///
-  /// If [favorite] is called on a favorite album, then the it will be removed
-  /// from the list of favorites.
-  ///
-  /// https://apidocs.imgur.com/?version=latest#31c72664-59c1-426f-98d7-ac7ad6547cc2
-  Future<String> favorite(String albumId) async {
-    return BaseResponse<String>.fromJson(json.decode((await client.request(
-                HttpMethod.POST, '/3/album/$albumId/favorite'))
-            .body))
         .data;
   }
 
