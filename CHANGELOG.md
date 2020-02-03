@@ -1,3 +1,9 @@
+## 1.1.0
+
+- BREAKING CHANGE: Services no longer return a BaseResponse or BaseResponseList instance but directly the content
+- Reformat code to follow dart standards
+- Rename deletehash field to deleteHash in GalleryImage, Image and Album classes.
+
 ## 1.0.21
 
 - Add uploadImage and uploadVideo methods to Image service
