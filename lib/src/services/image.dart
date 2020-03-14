@@ -204,11 +204,17 @@ class ImageService extends BaseService {
   /// An upload helper function for image/video.
   ///
   /// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
-  Future<Image> _upload(
-          {List<http.MultipartFile> files, Map<String, String> body}) async =>
-      BaseResponse.fromJson(json.decode((await client.upload(
-                  HttpMethod.POST, '/3/upload',
-                  body: body, files: files))
-              .body))
-          .data;
+  Future<Image> _upload({
+    List<http.MultipartFile> files,
+    Map<String, String> body
+  }) async {
+    http.Response resp = await client.upload(
+      HttpMethod.POST,
+      '/3/upload',
+      body: body,
+      files: files,
+    );
+    var baseResp = BaseResponse.fromJson(jsonDecode(resp.body));
+    return Image.fromJson(baseResp.data);
+  }
 }
