@@ -66,3 +66,23 @@ tell you more about:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Contributors ✨
+
+Thanks goes to these wonderful people:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/yudaprama">
+        <img src="https://avatars3.githubusercontent.com/u/33281225?s=460&u=b74cc75128f2c4f7c811797efca2dc23ffd19b7b&v=3" width="100px;" alt=""/>
+        <br />
+        <sub>
+          <b>yudaprama</b>
+        </sub>
+      </a>
+      <br />
+    </td>
+  </tr>
+</table>
+

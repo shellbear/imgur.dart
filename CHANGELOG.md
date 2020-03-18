@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Fix image upload by [yudaprama](https://github.com/yudaprama)
+
 ## 1.1.0
 
 - BREAKING CHANGE: Services no longer return a BaseResponse or BaseResponseList instance but directly the content
